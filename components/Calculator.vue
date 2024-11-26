@@ -49,7 +49,7 @@ export default {
 
             if (this.display1 === '0' && this.display2 === '' && !operators.includes(n)) {
                 this.display1 = n
-                this.display2 = n
+                this.display2 += n
             } else if (operators.includes(this.display1.slice(-1)) && operators.includes(n)) {
                 return;
             } else if (operators.includes(this.display1.slice(-1))) {
@@ -61,6 +61,9 @@ export default {
             } else if (this.display1.split('').includes('=')) {
                 this.display1 = n
                 this.display2 = n
+            } else {
+                this.display1 += n
+                this.display2 += n
             }
 
         },
@@ -115,6 +118,10 @@ export default {
     font-size: 35px;
     background-color: black;
     color: white;
+    width: 400px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
 }
 
