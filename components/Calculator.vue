@@ -46,19 +46,26 @@ export default {
 
         push(n) {
             const operators = ['+', '-', '*', '/', '.'];
-            if (this.display1 === '0') {
+
+            if (this.display1 === '0' && this.display2 === '' && !operators.includes(n)) {
+                this.display1 = n
+                this.display2 = n
+            } else if (operators.includes(this.display1.slice(-1)) && operators.includes(n)) {
+                return;
+            } else if (operators.includes(this.display1.slice(-1))) {
+                this.display1 += n
+                this.display2 = n
+            } else if (operators.includes(n)) {
+                this.display1 += n
+                this.display2 = n
+            } else if (this.display1.split('').includes('=')) {
                 this.display1 = n
                 this.display2 = n
             }
-            if (operators.includes(this.display1.slice(-1)) && operators.includes(n)) {
-                return;
-            } else {
-                this.display1 += n
-                this.display2 = n
-
-            }
 
         },
+
+
         result() {
             try {
                 this.display2 = eval(this.display1)
@@ -81,9 +88,10 @@ export default {
 }
 
 .title {
-    margin-top: 50px;
+    margin-top: 70px;
     color: black;
     font-size: 40px;
+
 }
 
 #container {
@@ -97,6 +105,9 @@ export default {
     border-radius: 5px;
     height: 600px;
     margin-bottom: 40%;
+    margin-top: 70px;
+
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 15px 12px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 #display {
