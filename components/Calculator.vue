@@ -2,8 +2,8 @@
     <div id="container">
         <h1 class="title">FCC Calculator</h1>
         <div id="calculator">
-            <div id="display">{{ display1 }}</div>
-            <div id="display">{{ display2 }}</div>
+            <div id="display1">{{ display1 }}</div>
+            <div id="display2">{{ display2 }}</div>
             <div id="keypad">
                 <button id="pad" @click="clear" class="button ac">AC</button>
                 <button id="pad" @click="push('/')" class="button">/</button>
@@ -48,22 +48,27 @@ export default {
             const operators = ['+', '-', '*', '/', '.'];
 
             if (this.display1 === '0' && this.display2 === '' && !operators.includes(n)) {
-                this.display1 = n
-                this.display2 += n
-            } else if (operators.includes(this.display1.slice(-1)) && operators.includes(n)) {
+                this.display1 = n;
+                this.display2 += n;
+            }
+
+            else if (operators.includes(this.display1.slice(-1)) && operators.includes(n)) {
                 return;
-            } else if (operators.includes(this.display1.slice(-1))) {
-                this.display1 += n
-                this.display2 = n
-            } else if (operators.includes(n)) {
-                this.display1 += n
-                this.display2 = n
-            } else if (this.display1.split('').includes('=')) {
-                this.display1 = n
-                this.display2 = n
-            } else {
-                this.display1 += n
-                this.display2 += n
+            }
+
+            else if (operators.includes(n) && this.display1.split('').includes('=')) {
+                this.display1 = this.display1.split('=')[1] + n;
+                this.display2 = n;
+            }
+
+            else if (this.display1.split('').includes('=') && !operators.includes(n)) {
+                this.display1 = n;
+                this.display2 = n;
+            }
+
+            else {
+                this.display1 += n;
+                this.display2 = n;
             }
 
         },
@@ -94,7 +99,6 @@ export default {
     margin-top: 70px;
     color: black;
     font-size: 40px;
-
 }
 
 #container {
@@ -109,21 +113,21 @@ export default {
     height: 600px;
     margin-bottom: 40%;
     margin-top: 70px;
-
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 15px 12px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-#display {
+#display1,
+#display2 {
     height: 48px;
-    font-size: 35px;
+    font-size: 38px;
     background-color: black;
     color: white;
     width: 400px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
+
 
 #keypad {
     height: 505px;
@@ -144,6 +148,10 @@ export default {
     width: 100%;
     height: 100%;
     border-radius: 2px;
+}
+
+.button:hover {
+    opacity: 80%;
 }
 
 .button.ac {
